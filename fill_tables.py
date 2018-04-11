@@ -22,7 +22,7 @@ def get_engine_and_metadata(database_url):
 
 def address_belongs_to_smart_contract(api, address):
 
-    code = api.getCode(address)
+    code = api.eth.getCode(address)
 
     if code == "0x":
         return False
