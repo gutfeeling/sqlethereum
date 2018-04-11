@@ -1,8 +1,10 @@
 import datetime
+import os
 import time
 
 import argparse
 import arrow
+from sqlalchemy import create_engine, Metadata
 from sqlalchemy.sql import select
 from web3 import Web3, HTTPProvider
 
@@ -110,8 +112,8 @@ if __name__ == "__main__":
                     amount = amount,
                     gas_price = gas_price,
                     gas = gas,
-                    from = from_address_id,
-                    to = to_address_id,
+                    from_address = from_address_id,
+                    to_address = to_address_id,
                     block_id = block_id
                     )
 

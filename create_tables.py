@@ -1,8 +1,8 @@
 import os
 
 from sqlalchemy import (create_engine, MetaData, Table, Column,
-    Integer, String, DateTime, Boolean, ForeignKey, 
-    )
+                        Integer, String, DateTime, Boolean, ForeignKey,
+                        )
 
 if __name__ == "__main__":
 
@@ -24,13 +24,13 @@ if __name__ == "__main__":
         Column("gas_price", Integer),
         Column("gas", Integer),
         Column(
-            "from",
+            "from_address",
             Integer,
             ForeignKey("address.id", ondelete = "CASCADE"),
             nullable=False,
             ),
         Column(
-            "to",
+            "to_address",
             Integer,
             ForeignKey("address.id", ondelete = "CASCADE"),
             nullable=False,
