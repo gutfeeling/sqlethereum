@@ -31,7 +31,7 @@ def address_belongs_to_smart_contract(api, address):
 
     return True
 
-def get_address_id(api, conn, address,  address_table):
+def get_address_id(api, conn, address, address_table):
 
     s = select(
         [address_table.c.id]
@@ -97,6 +97,7 @@ if __name__ == "__main__":
             for transaction in transactions:
                 from_address = transaction["from"]
                 to_address = transaction["to"]
+
                 amount = transaction["value"]*1e-18
                 gas_price = transaction["gasPrice"]
                 gas = transaction["gas"]
@@ -104,9 +105,12 @@ if __name__ == "__main__":
                 from_address_id = get_address_id(
                     api, conn, from_address, address_table
                     )
-                to_address_id = get_address_id(
-                    api, conn, to_address, address_table
-                    )
+                if to_address is None:
+                    to_address_id = None
+                else:
+                    to_address_id = get_address_id(
+                        api, conn, to_address, address_table
+                        )
 
                 conn.execute(
                     transaction_table.insert(),

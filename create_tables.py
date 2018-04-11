@@ -34,7 +34,11 @@ if __name__ == "__main__":
         Column(
             "to_address",
             Integer,
-            ForeignKey("address.id", ondelete = "CASCADE"),
+            ForeignKey(
+                "address.id",
+                ondelete = "CASCADE",
+                nullable = True
+                ),
             nullable=False,
             ),
         Column(
