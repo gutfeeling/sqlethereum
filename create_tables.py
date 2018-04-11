@@ -2,6 +2,7 @@ import os
 
 from sqlalchemy import (create_engine, MetaData, Table, Column,
                         Integer, String, DateTime, Boolean, ForeignKey,
+                        BigInteger
                         )
 
 if __name__ == "__main__":
@@ -20,8 +21,8 @@ if __name__ == "__main__":
 
     transaction_table = Table("transaction", metadata,
         Column("id", Integer, primary_key=True),
-        Column("amount", Integer),
-        Column("gas_price", Integer),
+        Column("amount", BigInteger),
+        Column("gas_price", BigInteger),
         Column("gas", Integer),
         Column(
             "from_address",
