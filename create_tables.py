@@ -34,12 +34,9 @@ if __name__ == "__main__":
         Column(
             "to_address",
             Integer,
-            ForeignKey(
-                "address.id",
-                ondelete = "CASCADE",
-                nullable = True
-                ),
-            nullable=False,
+            ForeignKey("address.id", ondelete = "CASCADE"),
+            # to address may be NULL - represents contract creation
+            nullable=True,
             ),
         Column(
             "block_id",
