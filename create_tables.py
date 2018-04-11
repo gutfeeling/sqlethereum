@@ -2,7 +2,7 @@ import os
 
 from sqlalchemy import (create_engine, MetaData, Table, Column,
                         Integer, String, DateTime, Boolean, ForeignKey,
-                        BigInteger
+                        BigInteger, Float
                         )
 
 if __name__ == "__main__":
