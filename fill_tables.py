@@ -76,7 +76,8 @@ if __name__ == "__main__":
     address_table = metadata.tables["address"]
 
     for block_number in range(start_block_number, end_block_number):
-        time.sleep(1)
+        
+        time.sleep(0.5)
 
         block = api.eth.getBlock(
             block_identifier = block_number,
@@ -122,7 +123,7 @@ if __name__ == "__main__":
                     block_id = block_id
                     )
 
-        if block_number - start_block_number % 100 == 0:
+        if (block_number - start_block_number) % 100 == 0:
             print(
                 "[{0}] Downloaded till block number {1}".format(
                     datetime.datetime.now(), block_number
