@@ -4,7 +4,7 @@ import time
 
 import argparse
 import arrow
-from sqlalchemy import create_engine, Metadata
+from sqlalchemy import create_engine, MetaData
 from sqlalchemy.sql import select
 from web3 import Web3, HTTPProvider
 
@@ -56,8 +56,8 @@ def get_address_id(api, conn, address,  address_table):
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--startblocknumber", default = 1)
-    parser.add_argument("--endblocknumber", default = None)
+    parser.add_argument("--startblocknumber", type = int, default = 1)
+    parser.add_argument("--endblocknumber", type = int, default = None)
     args = parser.parse_args()
 
     start_block_number = args.startblocknumber
@@ -83,13 +83,14 @@ if __name__ == "__main__":
             full_transactions = True
             )
         timestamp = block["timestamp"]
+        timestamp_datetime = arrow.get(timestamp).datetime
         transactions = block["transactions"]
 
         with engine.begin() as conn:
             result = conn.execute(
                 block_table.insert(),
                 block_number = block_number,
-                timestamp = arrow.get(timestamp)
+                timestamp = timestamp_datetime
                 )
             block_id = result.inserted_primary_key[0]
 
