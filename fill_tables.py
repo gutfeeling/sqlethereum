@@ -97,7 +97,7 @@ if __name__ == "__main__":
             for transaction in transactions:
                 from_address = transaction["from"]
                 to_address = transaction["to"]
-                amount = transaction["value"]
+                amount = transaction["value"]*1e-18
                 gas_price = transaction["gasPrice"]
                 gas = transaction["gas"]
 

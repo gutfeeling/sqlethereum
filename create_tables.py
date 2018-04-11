@@ -21,7 +21,8 @@ if __name__ == "__main__":
 
     transaction_table = Table("transaction", metadata,
         Column("id", Integer, primary_key=True),
-        Column("amount", BigInteger),
+        # amount is stored in Eth, not Wei
+        Column("amount", Float),
         Column("gas_price", BigInteger),
         Column("gas", Integer),
         Column(
