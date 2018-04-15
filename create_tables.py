@@ -14,8 +14,8 @@ if __name__ == "__main__":
     metadata.reflect(bind = engine)
 
     block_table = Table("block", metadata,
+        # id is the block number
         Column("id", Integer, primary_key=True),
-        Column("block_number", Integer),
         Column("timestamp", DateTime)
         )
 
