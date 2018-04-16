@@ -7,6 +7,7 @@ import arrow
 from sqlalchemy import create_engine, MetaData
 from sqlalchemy.sql import select
 from web3.auto import w3
+from web3.utils.thread import Timeout
 
 def get_engine_and_metadata(database_url):
 
@@ -18,7 +19,13 @@ def get_engine_and_metadata(database_url):
 
 def address_belongs_to_smart_contract(address):
 
-    code = w3.eth.getCode(address)
+    # Keep retrying forever on timeout
+    while True:
+        try:
+            code = w3.eth.getCode(address)
+            break
+        except Timeout:
+            pass
 
     if code == "0x":
         return False
@@ -55,9 +62,10 @@ def insert_blocks_and_transactions(conn, block_table, transaction_table,
         block_table.insert(), block_list
         )
 
-    conn.execute(
-        transaction_table.insert(), transaction_list
-    )
+    if not len(transaction_list) == 0:
+        conn.execute(
+            transaction_table.insert(), transaction_list
+        )
 
 
 if __name__ == "__main__":
@@ -87,10 +95,18 @@ if __name__ == "__main__":
     for block_number in range(start_block_number, end_block_number):
         with conn.begin() as trans:
             try:
-                block = w3.eth.getBlock(
-                    block_identifier = block_number,
-                    full_transactions = True
-                    )
+                # Keep retrying forever on timeout
+                while True:
+                    try:
+                        block = w3.eth.getBlock(
+                            block_identifier = block_number,
+                            full_transactions = True
+                            )
+                        break
+                    except Timeout:
+                        pass
+
+
                 timestamp = block["timestamp"]
                 timestamp_datetime = arrow.get(timestamp).datetime
                 transactions = block["transactions"]
@@ -136,7 +152,7 @@ if __name__ == "__main__":
                 if block_number == end_block_number - 1:
                     reached_end_block = True
 
-                if ((block_number - start_block_number) % 100 == 0 or
+                if ((block_number - start_block_number) % 1000 == 0 or
                         reached_end_block):
                     insert_blocks_and_transactions(
                         conn, block_table, transaction_table,
