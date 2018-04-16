@@ -7,7 +7,7 @@ import arrow
 from sqlalchemy import create_engine, MetaData
 from sqlalchemy.sql import select
 from web3.auto import w3
-from web3.utils.thread import Timeout
+from web3.utils.threads import Timeout
 
 def get_engine_and_metadata(database_url):
 
